@@ -9,7 +9,7 @@ setup(
     description='App to manage metate stock',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
-    url='https://github.com/fakanakavera/metate',  # Update with your GitHub URL
+    url='https://github.com/fakanakavera/mtt',  # Update with your GitHub URL
     author='FakaNaKavera',
     author_email='fakanakavera666@gmail.com',
     classifiers=[
