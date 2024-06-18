@@ -1,0 +1,15 @@
+<!-- templates/metate/flange_list.html -->
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Flange List</h1>
+  <a href="{% url 'flange_create' %}">Add New Flange</a>
+  <ul>
+    {% for flange in object_list %}
+      <li>
+        <a href="{% url 'flange_update' flange.pk %}">{{ flange.number }} - {{ flange.current_status }}</a>
+        <a href="{% url 'flange_delete' flange.pk %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

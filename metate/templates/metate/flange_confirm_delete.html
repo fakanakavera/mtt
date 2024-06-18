@@ -1,0 +1,12 @@
+<!-- templates/metate/flange_confirm_delete.html -->
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Delete Flange</h1>
+  <p>Are you sure you want to delete "{{ object }}"?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirm</button>
+    <a href="{{ cancel_url }}"><button type="button">Cancel</button></a>
+  </form>
+{% endblock %}

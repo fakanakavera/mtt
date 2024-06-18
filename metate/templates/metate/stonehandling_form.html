@@ -1,0 +1,12 @@
+<!-- templates/metate/stonehandling_form.html -->
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Add Stone Handling Action</h1>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save</button>
+    <a href="{{ cancel_url }}"><button type="button">Cancel</button></a>
+  </form>
+{% endblock %}

@@ -1,0 +1,14 @@
+<!-- templates/metate/stonehandling_list.html -->
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Stone Handling Actions</h1>
+  <a href="{% url 'stonehandling_create' %}">Add New Handling Action</a>
+  <ul>
+    {% for handling in object_list %}
+      <li>
+        {{ handling.action }} - {{ handling.stone.name }} - {{ handling.flange.number }} on {{ handling.action_date }}
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
