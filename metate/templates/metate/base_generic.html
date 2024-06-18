@@ -1,0 +1,26 @@
+<!-- templates/base_generic.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}My Stone Management App{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Stone Management System</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'stone_list' %}">Home</a></li>
+                <!-- Add other navigation links here -->
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Stone Management System</p>
+    </footer>
+</body>
+</html>
