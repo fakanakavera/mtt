@@ -1,0 +1,16 @@
+<!-- templates/metate/stone_list.html -->
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Stone List</h1>
+  <a href="{% url 'stone_create' %}">Add New Stone</a>
+  <ul>
+    {% for stone in object_list %}
+      <li>
+        <a href="{% url 'stone_detail' stone.pk %}">{{ stone.name }} ({{ stone.size }}mm) - Design {{ stone.design_number }}</a>
+        <a href="{% url 'stone_update' stone.pk %}">Edit</a>
+        <a href="{% url 'stone_delete' stone.pk %}">Delete</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
