@@ -5,6 +5,8 @@
   <h1>Add Stone Handling Action</h1>
   <form method="post">
     {% csrf_token %}
+    <!-- Include the error template here -->
+    {% include "metate/_form_errors.html" %}
     {{ form.as_p }}
     <button type="submit">Save</button>
     <a href="{{ cancel_url }}"><button type="button">Cancel</button></a>

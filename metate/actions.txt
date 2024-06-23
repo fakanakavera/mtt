@@ -1,0 +1,32 @@
+
+
+possible actions in the stone handling.
+
+montar = 
+    option 1
+        descartar pedra pequena
+        guardar so a pedra
+
+    option 2
+        montar pedra nova
+        montar pedra q estava guardada
+
+
+
+
+option 1
+    tirar pedra do flange
+        descartar(pequena)
+        guardar so a pedra
+        montar do lado contrario
+        deixar flange sem pedra
+    
+    tirar flange com pedra
+        guardar flange com a pedra
+    
+    tirar flange sem pedra
+        guardar flange
+        mandar flange para reparo
+
+    
+    
