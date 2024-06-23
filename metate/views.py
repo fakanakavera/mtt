@@ -99,7 +99,7 @@ class StoneHandlingCreateView(CreateView):
         # Check if the selected flange is associated with the selected stone
         if flange:
             print(flange.stone)
-            if flange.stone != 'null' and flange.stone != stone:
+            if flange.stone != None and flange.stone != stone:
                 form.add_error(None, "The selected flange is not associated with the selected stone.")
                 return self.form_invalid(form)
 
