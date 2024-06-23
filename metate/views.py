@@ -175,13 +175,13 @@ class StoneHandlingCreateView(CreateView):
             return self.form_invalid(form)
         
         # Create the StoneHandling object once after all checks
-        StoneHandling.objects.create(
-            stone=stone,
-            flange=flange,
-            action=action,
-            action_date=form.cleaned_data['action_date'],
-            notes=form.cleaned_data.get('notes', '')
-        )
+        # StoneHandling.objects.create(
+        #     stone=stone,
+        #     flange=flange,
+        #     action=action,
+        #     action_date=form.cleaned_data['action_date'],
+        #     notes=form.cleaned_data.get('notes', 'viewed from the form')
+        # )
 
         return super().form_valid(form)
 
