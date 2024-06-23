@@ -92,6 +92,8 @@ class StoneHandlingCreateView(CreateView):
         return context
     
     def form_valid(self, form):
+        hinban_list = {'1235': 'CPR6EA9',
+                       '0000': 'NEW',}
         stone = form.cleaned_data['stone']
         action = form.cleaned_data['action']
         flange = form.cleaned_data['flange']
@@ -141,6 +143,8 @@ class StoneHandlingCreateView(CreateView):
         elif action == 'mounted' and stone.main_state in ['BY_ITSELF', 'NEW']:
             stone.main_state = 'WITH_FLANGE'
             stone.design_number = design_number
+            if stone.main_state == 'NEW':
+                stone.name = hinban_list[design_number]
             stone.save()
             if flange:
                 flange.stone = stone
