@@ -97,9 +97,11 @@ class StoneHandlingCreateView(CreateView):
         flange = form.cleaned_data['flange']
 
         # Check if the selected flange is associated with the selected stone
-        if flange and flange.stone != stone:
-            form.add_error(None, "The selected flange is not associated with the selected stone.")
-            return self.form_invalid(form)
+        if flange:
+            print(flange.stone)
+            if flange.stone != 'null' and flange.stone != stone:
+                form.add_error(None, "The selected flange is not associated with the selected stone.")
+                return self.form_invalid(form)
 
         # Perform additional checks and actions based on the action
         if action == 'discarded' and stone.main_state not in ['DISCARDED']:
