@@ -34,7 +34,7 @@ class Flange(models.Model):
 
 class Inventory(models.Model):
     stone = models.ForeignKey(Stone, on_delete=models.CASCADE)
-    count = models.IntegerField()
+    count = models.IntegerField(default=0)
     last_updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
