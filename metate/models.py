@@ -81,6 +81,7 @@ class StoneHandling(models.Model):
     ]
 
     stone = models.ForeignKey(Stone, on_delete=models.CASCADE)
+    design_number = models.CharField(max_length=50, null=True, blank=True)
     flange = models.ForeignKey(Flange, on_delete=models.CASCADE, null=True, blank=True)
     action = models.CharField(max_length=50, choices=ACTION_CHOICES)
     action_date = models.DateField()

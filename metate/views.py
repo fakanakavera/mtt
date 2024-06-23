@@ -82,7 +82,7 @@ class FlangeDeleteView(DeleteView):
 
 class StoneHandlingCreateView(CreateView):
     model = StoneHandling
-    fields = ['stone', 'flange', 'action', 'action_date', 'notes']
+    fields = ['design_number' ,'stone', 'flange', 'action', 'action_date', 'notes']
     template_name = 'metate/stonehandling_form.html'
     success_url = reverse_lazy('stone_list')
 
@@ -107,6 +107,7 @@ class StoneHandlingCreateView(CreateView):
             stone.save()
             if flange:
                 flange.stone = None
+                flange.current_status = 'STORED'
                 flange.save()
             StoneHandling.objects.create(stone=stone, action='discarded', action_date=form.cleaned_data['action_date'])
 
@@ -137,6 +138,7 @@ class StoneHandlingCreateView(CreateView):
 
         elif action == 'mounted' and stone.main_state == 'BY_ITSELF':
             stone.main_state = 'WITH_FLANGE'
+            stone.design_number = form.cleaned_data['design_number']
             stone.save()
             if flange:
                 flange.stone = stone
