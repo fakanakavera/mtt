@@ -106,12 +106,11 @@ class StoneHandlingCreateView(CreateView):
                 return self.form_invalid(form)
 
         # Perform additional checks and actions based on the action
-        if action == 'discarded' and stone.main_state not in ['DISCARDED']:
+        if action == 'discarded' and stone.main_state in ['WITH_FLANGE', 'WITH_FLANGE_IN_SPINDLE', 'BY_ITSELF']:
             stone.main_state = 'DISCARDED'
             stone.save()
             if flange:
                 flange.stone = None
-                flange.current_status = 'STORED'
                 flange.save()
             StoneHandling.objects.create(stone=stone, action='discarded', action_date=form.cleaned_data['action_date'])
 
@@ -139,7 +138,7 @@ class StoneHandlingCreateView(CreateView):
                 flange.current_status = 'IN_USE'
                 flange.save()
             StoneHandling.objects.create(stone=stone, action='reinstated', action_date=form.cleaned_data['action_date'])
-
+        #done
         elif action == 'mounted' and stone.main_state in ['BY_ITSELF', 'NEW']:
             if stone.main_state == 'NEW':
                 stone.name = hinban_list[design_number]
@@ -150,7 +149,7 @@ class StoneHandlingCreateView(CreateView):
                 flange.stone = stone
                 flange.current_status = 'IN_USE'
                 flange.save()
-            StoneHandling.objects.create(stone=stone, action='mounted', action_date=form.cleaned_data['action_date'])
+            # StoneHandling.objects.create(stone=stone, action='mounted', action_date=form.cleaned_data['action_date'])
 
         elif action == 'removed' and stone.main_state == 'WITH_FLANGE':
             stone.main_state = 'BY_ITSELF'
@@ -174,6 +173,15 @@ class StoneHandlingCreateView(CreateView):
         else:
             form.add_error(None, "Invalid action for the current stone state or missing required information.")
             return self.form_invalid(form)
+        
+        # Create the StoneHandling object once after all checks
+        StoneHandling.objects.create(
+            stone=stone,
+            flange=flange,
+            action=action,
+            action_date=form.cleaned_data['action_date'],
+            notes=form.cleaned_data.get('notes', '')
+        )
 
         return super().form_valid(form)
 
