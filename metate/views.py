@@ -95,6 +95,7 @@ class StoneHandlingCreateView(CreateView):
         stone = form.cleaned_data['stone']
         action = form.cleaned_data['action']
         flange = form.cleaned_data['flange']
+        design_number = form.cleaned_data['design_number']
 
         # Check if the selected flange is associated with the selected stone
         if flange:
@@ -137,9 +138,9 @@ class StoneHandlingCreateView(CreateView):
                 flange.save()
             StoneHandling.objects.create(stone=stone, action='reinstated', action_date=form.cleaned_data['action_date'])
 
-        elif action == 'mounted' and stone.main_state == 'BY_ITSELF':
+        elif action == 'mounted' and stone.main_state in ['BY_ITSELF', 'NEW']:
             stone.main_state = 'WITH_FLANGE'
-            stone.design_number = form.cleaned_data['design_number']
+            stone.design_number = design_number
             stone.save()
             if flange:
                 flange.stone = stone
