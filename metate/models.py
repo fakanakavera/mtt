@@ -5,13 +5,15 @@ class Stone(models.Model):
         ('BY_ITSELF', 'By Itself'),
         ('WITH_FLANGE', 'With Flange'),
         ('WITH_FLANGE_IN_SPINDLE', 'With Flange in Spindle'),
+        ('NEW', 'New'),
+        ('DISCARDED', 'Discarded'),
     ]
 
     name = models.CharField(max_length=255)
     size = models.DecimalField(max_digits=5, decimal_places=2)
     design_number = models.CharField(max_length=50)
     description = models.TextField(null=True, blank=True)
-    main_state = models.CharField(max_length=50, choices=STATE_CHOICES, default='BY_ITSELF')
+    main_state = models.CharField(max_length=50, choices=STATE_CHOICES, default='NEW')
 
     def __str__(self):
         return f"{self.name} ({self.size}mm) - Design {self.design_number}"
@@ -69,10 +71,11 @@ class Requirement(models.Model):
 
 class StoneHandling(models.Model):
     ACTION_CHOICES = [
-        ('discarded', 'Discarded'),
-        ('shelved', 'Shelved'),
-        ('reinstated', 'Reinstated'),
-        ('assigned', 'Assigned'),  # Action for assigning a flange to a stone
+        ('discarded', 'Discarded'), # stone is discarded
+        ('shelved_with_flange', 'Shelved with Flange'), # stone is shelved with a flange
+        ('shelved_only_stone', 'Shelved Only Stone'), # stone is shelved without a flange
+        ('reinstated', 'Reinstated'), # stone is reinstated on spindle
+        ('mounted', 'Mounted'),  # Action for mounting a flange to a stone
         ('removed', 'Removed'),    # Action for removing a flange from a stone
         ('design_number_changed', 'Design Number Changed')  # New action for changing the stone's design number
     ]
