@@ -141,10 +141,10 @@ class StoneHandlingCreateView(CreateView):
             StoneHandling.objects.create(stone=stone, action='reinstated', action_date=form.cleaned_data['action_date'])
 
         elif action == 'mounted' and stone.main_state in ['BY_ITSELF', 'NEW']:
-            stone.main_state = 'WITH_FLANGE'
-            stone.design_number = design_number
             if stone.main_state == 'NEW':
                 stone.name = hinban_list[design_number]
+            stone.main_state = 'WITH_FLANGE'
+            stone.design_number = design_number
             stone.save()
             if flange:
                 flange.stone = stone
