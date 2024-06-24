@@ -20,9 +20,10 @@ class StoneHandlingStep2View(FormView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         flange_id = self.request.session.get('flange')
-        flange = get_object_or_404(Flange, id=flange_id)
-        stone = flange.stone
-        kwargs['stone'] = stone
+        if flange_id:
+            flange = get_object_or_404(Flange, id=flange_id)
+            stone = flange.stone
+            kwargs['stone'] = stone
         return kwargs
 
     def form_valid(self, form):

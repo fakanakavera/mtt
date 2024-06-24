@@ -16,18 +16,19 @@ class StoneHandlingStep2Form(forms.ModelForm):
         super(StoneHandlingStep2Form, self).__init__(*args, **kwargs)
         if stone:
             state = stone.main_state
-            # Define your filtering logic here
-            if state == 'NEW' or state == 'BY_ITSELF':
-                self.fields['action'].choices = [
+            action_choices = []
+            if state in ['NEW', 'BY_ITSELF']:
+                action_choices = [
                     ('mount_flange', 'Mount Flange'),
-                    # Add other relevant actions
+                    # Add other relevant actions for this state
                 ]
             elif state == 'WITH_FLANGE':
-                self.fields['action'].choices = [
+                action_choices = [
                     ('remove_flange', 'Remove Flange'),
-                    # Add other relevant actions
+                    # Add other relevant actions for this state
                 ]
-            # Add more conditions based on stone states
+            # Update the action field choices
+            self.fields['action'].choices = action_choices
 
 class StoneHandlingStep3Form(forms.ModelForm):
     class Meta:
