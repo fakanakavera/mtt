@@ -13,15 +13,15 @@ class StoneHandlingStep1View(FormView):
         self.request.session['flange'] = form.cleaned_data['flange'].id
         return redirect('stonehandling_step2')
 
-
 class StoneHandlingStep2View(FormView):
     template_name = 'metate/stonehandling_step2.html'
     form_class = StoneHandlingStep2Form
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        stone_id = self.request.session.get('stone')
-        stone = get_object_or_404(Stone, id=stone_id)
+        flange_id = self.request.session.get('flange')
+        flange = get_object_or_404(Flange, id=flange_id)
+        stone = flange.stone
         kwargs['stone'] = stone
         return kwargs
 
@@ -38,8 +38,7 @@ class StoneHandlingStep3View(FormView):
         flange_id = self.request.session.get('flange')
         flange = get_object_or_404(Flange, id=flange_id)
         action = self.request.session.get('action')
-        stone_id = self.request.session.get('stone')
-        stone = get_object_or_404(Stone, id=stone_id)
+        stone = flange.stone
         
         # Create the StoneHandling object
         StoneHandling.objects.create(
@@ -55,10 +54,8 @@ class StoneHandlingStep3View(FormView):
         # Clear the session data
         self.request.session.pop('flange')
         self.request.session.pop('action')
-        self.request.session.pop('stone')
 
         return redirect('stone_list')
-
     
 
     
