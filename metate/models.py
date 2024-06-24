@@ -2,14 +2,10 @@ from django.db import models
 from fnkutils.funcs.yaml import load_yaml
 import os
 
+DIR = os.path.dirname(os.path.abspath(__file__))
+
 class Stone(models.Model):
-    STATE_CHOICES = [
-        ('BY_ITSELF', 'By Itself'),
-        ('WITH_FLANGE', 'With Flange'),
-        ('WITH_FLANGE_IN_SPINDLE', 'With Flange in Spindle'),
-        ('NEW', 'New'),
-        ('DISCARDED', 'Discarded'),
-    ]
+    STATE_CHOICES = load_yaml(os.path.join(DIR, 'variables', 'stone_state_choices.yaml'))
 
     name = models.CharField(max_length=255)
     size = models.DecimalField(max_digits=5, decimal_places=2)
@@ -21,11 +17,7 @@ class Stone(models.Model):
         return f"{self.name} ({self.size}mm) - {self.id}"
 
 class Flange(models.Model):
-    STATUS_CHOICES = [
-        ('STORED', 'Stored'),
-        ('IN_USE', 'In Use'),
-        ('DISCARDED', 'Discarded'),
-    ]
+    STATUS_CHOICES = load_yaml(os.path.join(DIR, 'variables', 'flange_status_choices.yaml'))
 
     number = models.CharField(max_length=50, unique=True)
     stone = models.ForeignKey('Stone', on_delete=models.CASCADE, null=True, blank=True)
@@ -72,9 +64,9 @@ class Requirement(models.Model):
         return f"{self.stone.name}: {self.required_quantity} units required by {self.requirement_month}"
 
 class StoneHandling(models.Model):
-    DIR = os.path.dirname(os.path.abspath(__file__))
+    
     ACTION_CHOICES = load_yaml(os.path.join(DIR, 'variables', 'stone_handling_choices.yaml'))
-    print(ACTION_CHOICES)
+
     stone = models.ForeignKey(Stone, on_delete=models.CASCADE)
     design_number = models.CharField(max_length=50, null=True, blank=True)
     flange = models.ForeignKey(Flange, on_delete=models.CASCADE, null=True, blank=True)
@@ -87,26 +79,26 @@ class StoneHandling(models.Model):
     def __str__(self):
         return f"{self.stone.name}: {self.action} on {self.action_date} (Flange {self.flange.number if self.flange else 'N/A'})"
 
-class StoneState(models.Model):
-    MAIN_STATE_CHOICES = [
-        ('BY_ITSELF', 'By Itself'),
-        ('WITH_FLANGE', 'With Flange'),
-        ('WITH_FLANGE_IN_SPINDLE', 'With Flange in Spindle'),
-    ]
+# class StoneState(models.Model):
+#     MAIN_STATE_CHOICES = [
+#         ('BY_ITSELF', 'By Itself'),
+#         ('WITH_FLANGE', 'With Flange'),
+#         ('WITH_FLANGE_IN_SPINDLE', 'With Flange in Spindle'),
+#     ]
 
-    SUB_STATE_CHOICES = [
-        ('DONE', 'Done'),
-        ('USED', 'Used'),
-        ('SEMI_USED', 'Semi-Used'),
-        ('TO_BE_DISCARDED', 'To Be Discarded'),
-    ]
+#     SUB_STATE_CHOICES = [
+#         ('DONE', 'Done'),
+#         ('USED', 'Used'),
+#         ('SEMI_USED', 'Semi-Used'),
+#         ('TO_BE_DISCARDED', 'To Be Discarded'),
+#     ]
 
-    stone = models.ForeignKey(Stone, on_delete=models.CASCADE)
-    flange = models.ForeignKey(Flange, on_delete=models.CASCADE, null=True, blank=True)
-    main_state = models.CharField(max_length=50, choices=MAIN_STATE_CHOICES)
-    sub_state = models.CharField(max_length=50, choices=SUB_STATE_CHOICES, null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+#     stone = models.ForeignKey(Stone, on_delete=models.CASCADE)
+#     flange = models.ForeignKey(Flange, on_delete=models.CASCADE, null=True, blank=True)
+#     main_state = models.CharField(max_length=50, choices=MAIN_STATE_CHOICES)
+#     sub_state = models.CharField(max_length=50, choices=SUB_STATE_CHOICES, null=True, blank=True)
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True)
 
-    def __str__(self):
-        return f"{self.stone.name}: {self.main_state} - {self.sub_state if self.sub_state else 'N/A'}"
+#     def __str__(self):
+#         return f"{self.stone.name}: {self.main_state} - {self.sub_state if self.sub_state else 'N/A'}"

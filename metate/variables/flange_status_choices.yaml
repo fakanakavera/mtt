@@ -1,0 +1,7 @@
+# flange_status_choices.yaml
+
+state_choices:
+  - ['STORED', 'Stored']
+  - ['IN_USE', 'In Use']
+  - ['DISCARDED', 'Discarded']
+  

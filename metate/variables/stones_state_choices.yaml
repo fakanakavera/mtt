@@ -1,0 +1,8 @@
+# stones_state_choices.yaml
+
+state_choices:
+  - ['BY_ITSELF', 'By Itself']
+  - ['WITH_FLANGE', 'With Flange']
+  - ['WITH_FLANGE_IN_SPINDLE', 'With Flange in Spindle']
+  - ['NEW', 'New']
+  - ['DISCARDED', 'Discarded']
