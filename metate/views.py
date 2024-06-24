@@ -27,7 +27,8 @@ class StoneHandlingStep2View(FormView):
         return kwargs
 
     def form_valid(self, form):
-        self.request.session['action'] = form.cleaned_data['action'].id
+        print(self.request.session)
+        self.request.session['action'] = form.cleaned_data['action']
         return redirect('stonehandling_step3')
 
 class StoneHandlingStep3View(FormView):
