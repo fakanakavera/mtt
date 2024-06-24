@@ -1,4 +1,6 @@
 from django.db import models
+from fnkutils.funcs.yaml import load_yaml
+import os
 
 class Stone(models.Model):
     STATE_CHOICES = [
@@ -70,16 +72,9 @@ class Requirement(models.Model):
         return f"{self.stone.name}: {self.required_quantity} units required by {self.requirement_month}"
 
 class StoneHandling(models.Model):
-    ACTION_CHOICES = [
-        ('discarded', 'Discarded'), # stone is discarded
-        ('shelved_with_flange', 'Shelved with Flange'), # stone is shelved with a flange
-        ('shelved_only_stone', 'Shelved Only Stone'), # stone is shelved without a flange
-        ('reinstated', 'Reinstated'), # stone is reinstated on spindle
-        ('mounted', 'Mounted'),  # Action for mounting a flange to a stone
-        ('removed', 'Removed'),    # Action for removing a flange from a stone
-        ('design_number_changed', 'Design Number Changed')  # New action for changing the stone's design number
-    ]
-
+    DIR = os.path.dirname(os.path.abspath(__file__))
+    ACTION_CHOICES = load_yaml(os.path.join(DIR, 'yaml', 'stone_handling_choices.yaml'))
+    print(ACTION_CHOICES)
     stone = models.ForeignKey(Stone, on_delete=models.CASCADE)
     design_number = models.CharField(max_length=50, null=True, blank=True)
     flange = models.ForeignKey(Flange, on_delete=models.CASCADE, null=True, blank=True)
