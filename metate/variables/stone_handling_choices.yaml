@@ -1,0 +1,10 @@
+# stone_handling_choices.yaml
+
+action_choices:
+  - ['discarded', 'Discarded']
+  - ['shelved_with_flange', 'Shelved with Flange']
+  - ['shelved_only_stone', 'Shelved Only Stone']
+  - ['reinstated', 'Reinstated']
+  - ['mounted', 'Mounted']
+  - ['removed', 'Removed']
+  - ['design_number_changed', 'Design Number Changed']
