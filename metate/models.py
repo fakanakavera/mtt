@@ -9,7 +9,6 @@ class Stone(models.Model):
         ('DISCARDED', 'Discarded'),
     ]
 
-    serial_number = models.AutoField()
     name = models.CharField(max_length=255)
     size = models.DecimalField(max_digits=5, decimal_places=2)
     design_number = models.CharField(max_length=50)
@@ -17,7 +16,7 @@ class Stone(models.Model):
     main_state = models.CharField(max_length=50, choices=STATE_CHOICES, default='NEW')
 
     def __str__(self):
-        return f"{self.name} ({self.size}mm) - {self.serial_number}"
+        return f"{self.name} ({self.size}mm) - {self.id}"
 
 class Flange(models.Model):
     STATUS_CHOICES = [
