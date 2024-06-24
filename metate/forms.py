@@ -25,6 +25,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
             elif state == 'WITH_FLANGE':
                 action_choices = [
                     ('remove_flange', 'Remove Flange'),
+                    ('discard', 'Discard'),
                     # Add other relevant actions for this state
                 ]
             # Update the action field choices

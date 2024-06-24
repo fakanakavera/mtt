@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='metate',
-    version='0.3.25',
+    version='0.3.26',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',  # Choose an appropriate license
