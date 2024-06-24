@@ -73,6 +73,7 @@ class Requirement(models.Model):
 
 class StoneHandling(models.Model):
     DIR = os.path.dirname(os.path.abspath(__file__))
+    print(os.path.join(DIR, 'yaml', 'stone_handling_choices.yaml'))
     ACTION_CHOICES = load_yaml(os.path.join(DIR, 'yaml', 'stone_handling_choices.yaml'))
     print(ACTION_CHOICES)
     stone = models.ForeignKey(Stone, on_delete=models.CASCADE)
