@@ -10,7 +10,7 @@ class StoneHandlingStep1View(FormView):
     form_class = StoneHandlingStep1Form
 
     def form_valid(self, form):
-        self.request.session['flange'] = form.cleaned_data['flange']
+        self.request.session['flange'] = form.cleaned_data['flange'].id
         return redirect('stonehandling_step2')
 
 class StoneHandlingStep2View(FormView):
