@@ -1,8 +1,62 @@
 from django.views.generic import ListView, DetailView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.urls import reverse_lazy
 from .models import Stone, Flange, StoneHandling
-from django.contrib import messages
+from django.shortcuts import redirect, get_object_or_404
+from .forms import StoneHandlingStep1Form, StoneHandlingStep2Form, StoneHandlingStep3Form
+
+class StoneHandlingStep1View(FormView):
+    template_name = 'metate/stonehandling_step1.html'
+    form_class = StoneHandlingStep1Form
+
+    def form_valid(self, form):
+        self.request.session['flange'] = form.cleaned_data['flange']
+        return redirect('stonehandling_step2')
+
+class StoneHandlingStep2View(FormView):
+    template_name = 'metate/stonehandling_step2.html'
+    form_class = StoneHandlingStep2Form
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        stone_id = self.request.session.get('stone')
+        stone = get_object_or_404(Stone, id=stone_id)
+        kwargs['stone'] = stone
+        return kwargs
+
+    def form_valid(self, form):
+        self.request.session['action'] = form.cleaned_data['action']
+        return redirect('stonehandling_step3')
+
+class StoneHandlingStep3View(FormView):
+    template_name = 'metate/stonehandling_step3.html'
+    form_class = StoneHandlingStep3Form
+
+    def form_valid(self, form):
+        # Retrieve data from the session
+        flange = self.request.session.get('flange')
+        action = self.request.session.get('action')
+        stone_id = self.request.session.get('stone')
+        
+        # Create the StoneHandling object
+        StoneHandling.objects.create(
+            flange=flange,
+            action=action,
+            stone_id=stone_id,
+            design_number=form.cleaned_data['design_number'],
+            new_design_number=form.cleaned_data['new_design_number'],
+            action_date=form.cleaned_data['action_date'],
+            notes=form.cleaned_data['notes'],
+        )
+
+        # Clear the session data
+        self.request.session.pop('flange')
+        self.request.session.pop('action')
+
+        return redirect('stone_list')
+    
+
+    
 
 class StoneListView(ListView):
     model = Stone
