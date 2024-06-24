@@ -82,7 +82,7 @@ class FlangeDeleteView(DeleteView):
 
 class StoneHandlingCreateView(CreateView):
     model = StoneHandling
-    fields = ['design_number' ,'stone', 'flange', 'action', 'action_date', 'notes']
+    fields = ['design_number' ,'stone', 'flange', 'action', 'new_design_number', 'action_date', 'notes']
     template_name = 'metate/stonehandling_form.html'
     success_url = reverse_lazy('stone_list')
 
@@ -98,74 +98,71 @@ class StoneHandlingCreateView(CreateView):
         action = form.cleaned_data['action']
         flange = form.cleaned_data['flange']
         design_number = form.cleaned_data['design_number']
+        new_design_number = form.cleaned_data['new_design_number']
 
         # Check if the selected flange is associated with the selected stone
         if flange:
             if flange.stone != None and flange.stone != stone:
                 form.add_error(None, "The selected flange is not associated with the selected stone.")
                 return self.form_invalid(form)
+        else:
+            form.add_error(None, "Flange must be selected for this action.")
+            return self.form_invalid(form)
 
-        # Perform additional checks and actions based on the action
+        # JOGA A PEDRA FORA
         if action == 'discarded' and stone.main_state in ['WITH_FLANGE', 'WITH_FLANGE_IN_SPINDLE', 'BY_ITSELF']:
             stone.main_state = 'DISCARDED'
             stone.save()
             if flange:
                 flange.stone = None
-                flange.save()
-            StoneHandling.objects.create(stone=stone, action='discarded', action_date=form.cleaned_data['action_date'])
-
-        elif action == 'shelved_with_flange' and stone.main_state == 'WITH_FLANGE_IN_SPINDLE':
-            stone.main_state = 'WITH_FLANGE'
-            stone.save()
-            if flange:
                 flange.current_status = 'STORED'
                 flange.save()
-            StoneHandling.objects.create(stone=stone, action='shelved_with_flange', action_date=form.cleaned_data['action_date'])
-
-        elif action == 'shelved_only_stone' and stone.main_state == 'WITH_FLANGE':
-            stone.main_state = 'BY_ITSELF'
-            stone.save()
-            if flange:
-                flange.stone = None
-                flange.current_status = 'STORED'
-                flange.save()
-            StoneHandling.objects.create(stone=stone, action='shelved_only_stone', action_date=form.cleaned_data['action_date'])
-
-        elif action == 'reinstated' and stone.main_state == 'WITH_FLANGE_IN_SPINDLE':
-            stone.main_state = 'WITH_FLANGE_IN_SPINDLE'
-            stone.save()
-            if flange:
-                flange.current_status = 'IN_USE'
-                flange.save()
-            StoneHandling.objects.create(stone=stone, action='reinstated', action_date=form.cleaned_data['action_date'])
-        #done
+        # MONTA UM PEDRA NO FLANGE
         elif action == 'mounted' and stone.main_state in ['BY_ITSELF', 'NEW']:
             if stone.main_state == 'NEW':
                 stone.name = hinban_list[design_number]
-            stone.main_state = 'WITH_FLANGE'
+            stone.main_state = 'WITH_FLANGE_IN_SPINDLE'
             stone.design_number = design_number
             stone.save()
             if flange:
                 flange.stone = stone
                 flange.current_status = 'IN_USE'
                 flange.save()
-            # StoneHandling.objects.create(stone=stone, action='mounted', action_date=form.cleaned_data['action_date'])
-
-        elif action == 'removed' and stone.main_state == 'WITH_FLANGE':
+        # GUARDA PEDRA COM FLANGE
+        elif action == 'shelved_with_flange' and stone.main_state in ['WITH_FLANGE_IN_SPINDLE']:
+            stone.main_state = 'WITH_FLANGE'
+            stone.save()
+            if flange:
+                flange.current_status = 'IN_USE'
+                flange.save()
+        # GUARDA PEDRA SEM FLANGE
+        elif action == 'shelved_only_stone' and stone.main_state in ['WITH_FLANGE', 'WITH_FLANGE_IN_SPINDLE']:
             stone.main_state = 'BY_ITSELF'
             stone.save()
             if flange:
                 flange.stone = None
                 flange.current_status = 'STORED'
                 flange.save()
-            StoneHandling.objects.create(stone=stone, action='removed', action_date=form.cleaned_data['action_date'])
-
+        # REINSTALA FLANGE
+        elif action == 'reinstated' and stone.main_state in ['WITH_FLANGE']:
+            stone.main_state = 'WITH_FLANGE_IN_SPINDLE'
+            stone.save()
+            if flange:
+                flange.current_status = 'IN_USE'
+                flange.save()
+        # REMOVE PEDRA DO FLANGE
+        elif action == 'removed' and stone.main_state in ['WITH_FLANGE', 'WITH_FLANGE_IN_SPINDLE']:
+            stone.main_state = 'BY_ITSELF'
+            stone.save()
+            if flange:
+                flange.stone = None
+                flange.current_status = 'STORED'
+                flange.save()
+        # ALTERA NUMERO DO DESIGN
         elif action == 'change_design_number':
-            new_design_number = self.request.POST.get('new_design_number')
             if new_design_number:
                 stone.design_number = new_design_number
                 stone.save()
-                StoneHandling.objects.create(stone=stone, action='change_design_number', action_date=form.cleaned_data['action_date'])
             else:
                 form.add_error(None, "Design number must be provided for this action.")
                 return self.form_invalid(form)
@@ -174,14 +171,6 @@ class StoneHandlingCreateView(CreateView):
             form.add_error(None, "Invalid action for the current stone state or missing required information.")
             return self.form_invalid(form)
         
-        # Create the StoneHandling object once after all checks
-        # StoneHandling.objects.create(
-        #     stone=stone,
-        #     flange=flange,
-        #     action=action,
-        #     action_date=form.cleaned_data['action_date'],
-        #     notes=form.cleaned_data.get('notes', 'viewed from the form')
-        # )
 
         return super().form_valid(form)
 
