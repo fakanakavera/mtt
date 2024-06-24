@@ -1,4 +1,4 @@
-# stones_state_choices.yaml
+# stone_state_choices.yaml
 
 state_choices:
   - ['BY_ITSELF', 'By Itself']
