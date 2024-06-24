@@ -30,6 +30,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
                 ]
             # Update the action field choices
             self.fields['action'].choices = action_choices
+            f"Action choices for state {state}: {self.fields['action'].choices}"
 
 class StoneHandlingStep3Form(forms.ModelForm):
     class Meta:
