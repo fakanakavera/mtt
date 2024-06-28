@@ -1,0 +1,12 @@
+# stonehandling_form_step2.yaml
+# used in StoneHandlingStep2Form
+
+NEW:
+  - ['mount_flange', 'Mount Flange']
+  
+BY_ITSELF:
+  - ['mount_flange', 'Mount Flange']
+
+WITH_FLANGE:
+  - ['removed', 'Removed']
+  - ['discarded', 'Discarded']

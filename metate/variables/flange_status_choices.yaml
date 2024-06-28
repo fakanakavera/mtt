@@ -1,4 +1,5 @@
 # flange_status_choices.yaml
+# used in Flange model
 
 state_choices:
   - ['STORED', 'Stored']

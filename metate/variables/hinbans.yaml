@@ -1,0 +1,8 @@
+# hinbans.yaml
+# used in signals
+
+hinban_list:
+  - ['0000', 'NEW']
+  - ['1235', 'CPR6EA9']
+  - ['AA98', 'PFR5B11']
+  - ['1236', 'DILKARP8SY']

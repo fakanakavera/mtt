@@ -2,24 +2,28 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .models import StoneHandling, Stone, Flange
+from fnkutils.funcs.yaml import load_yaml
+import os
+
+DIR = os.path.dirname(os.path.abspath(__file__))
 
 @receiver(post_save, sender=StoneHandling)
 def handle_stone_handling(sender, instance, created, **kwargs):
     if not created:
         return
 
-    hinban_list = {'1235': 'CPR6EA9', '0000': 'NEW',}
+    hinban_list = load_yaml(os.path.join(DIR, 'variables', 'hinban_list.yaml'))
     stone = instance.stone
     action = instance.action
     flange = instance.flange
     design_number = instance.design_number
     new_design_number = instance.new_design_number
-
-    if flange and flange.stone and flange.stone != stone:
-        raise ValueError("The selected flange is not associated with the selected stone.")
     
     if not flange:
         raise ValueError("Flange must be selected for this action.")
+
+    if flange and flange.stone and flange.stone != stone:
+        raise ValueError("The selected flange is not associated with the selected stone.")
 
     if action == 'discarded' and stone.main_state in ['WITH_FLANGE', 'WITH_FLANGE_IN_SPINDLE', 'BY_ITSELF']:
         stone.main_state = 'DISCARDED'

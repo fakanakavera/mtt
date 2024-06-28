@@ -1,4 +1,5 @@
 # stone_state_choices.yaml
+# used in Stone model
 
 state_choices:
   - ['BY_ITSELF', 'By Itself']

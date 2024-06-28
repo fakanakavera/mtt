@@ -1,4 +1,5 @@
 # stone_handling_choices.yaml
+# used in StoneHandling model
 
 action_choices:
   - ['discarded', 'Discarded']
