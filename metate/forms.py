@@ -31,7 +31,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
 class StoneHandlingStep3Form(forms.ModelForm):
     class Meta:
         model = StoneHandling
-        fields = ['design_number', 'action_date', 'action']
+        fields = ['design_number', 'action_date']
 
     def __init__(self, *args, **kwargs):
         selected_action = kwargs.pop('selected_action', None)
@@ -39,4 +39,4 @@ class StoneHandlingStep3Form(forms.ModelForm):
         print(f"Selected action: {selected_action}")
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step3.yaml'))
         self.fields['stone'] = forms.ModelChoiceField(queryset=Stone.objects.filter(main_state='NEW'))
-        self.fields['action'].choices = selected_action
+
