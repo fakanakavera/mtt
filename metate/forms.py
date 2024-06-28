@@ -21,19 +21,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
         if stone:
             state = stone.main_state
             choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
-            # action_choices = choices[state]
-            # if state in ['NEW', 'BY_ITSELF']:
-            #     action_choices = [
-            #         ('mount_flange', 'Mount Flange'),
-            #         # Add other relevant actions for this state
-            #     ]
-            # elif state == 'WITH_FLANGE':
-            #     action_choices = [
-            #         ('removed', 'Removed'),
-            #         ('discarded', 'Discarded'),
-            #         # Add other relevant actions for this state
-            #     ]
-            # Update the action field choices
+
             self.fields['action'].choices = choices[state]
             print(f"Action choices for state {state}: {self.fields['action'].choices}")
         
@@ -48,5 +36,7 @@ class StoneHandlingStep3Form(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
-        print(*args)
-        print(**kwargs)
+        selected_action = kwargs.pop('selected_action', None)
+        print(f"Selected action: {selected_action}")
+        choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step3.yaml'))
+        self.fields.append('stone')

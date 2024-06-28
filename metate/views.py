@@ -36,6 +36,13 @@ class StoneHandlingStep3View(FormView):
     template_name = 'metate/stonehandling_step3.html'
     form_class = StoneHandlingStep3Form
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        selected_action = self.request.session.get('action')
+        if selected_action:
+            kwargs['selected_action'] = selected_action
+        return kwargs
+
     def form_valid(self, form):
         # Retrieve data from the session
         flange_id = self.request.session.get('flange')
