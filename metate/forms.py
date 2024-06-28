@@ -31,7 +31,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
 class StoneHandlingStep3Form(forms.ModelForm):
     class Meta:
         model = StoneHandling
-        fields = ['design_number', 'action_date']
+        fields = ['design_number', 'action_date', 'action']
 
     def __init__(self, *args, **kwargs):
         selected_action = kwargs.pop('selected_action', None)
