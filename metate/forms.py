@@ -23,7 +23,6 @@ class StoneHandlingStep2Form(forms.ModelForm):
             choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
 
             self.fields['action'].choices = choices[state]
-            print(f"Action choices for state {state}: {self.fields['action'].choices}")
         
         if not stone:
             choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
@@ -32,11 +31,12 @@ class StoneHandlingStep2Form(forms.ModelForm):
 class StoneHandlingStep3Form(forms.ModelForm):
     class Meta:
         model = StoneHandling
-        fields = ['design_number', 'new_design_number', 'action_date', 'notes']
+        fields = ['design_number', 'action_date']
 
     def __init__(self, *args, **kwargs):
         selected_action = kwargs.pop('selected_action', None)
         super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
         print(f"Selected action: {selected_action}")
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step3.yaml'))
-        self.fields['stone'] = forms.ModelChoiceField(queryset=Stone.objects.all())
+        self.fields['stone'] = forms.ModelChoiceField(queryset=Stone.objects.filter(main_state='NEW'))
+        self.fields['action'].choices = selected_action

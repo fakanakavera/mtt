@@ -72,7 +72,7 @@ class StoneHandling(models.Model):
     flange = models.ForeignKey(Flange, on_delete=models.CASCADE, null=True, blank=True)
     action = models.CharField(max_length=50, choices=ACTION_CHOICES)
     new_design_number = models.CharField(max_length=50, null=True, blank=True)
-    action_date = models.DateField()
+    action_date = models.DateField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
