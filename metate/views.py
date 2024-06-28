@@ -48,16 +48,12 @@ class StoneHandlingStep3View(FormView):
         action = self.request.session.get('action')
         flange_id = self.request.session.get('flange')
         flange = get_object_or_404(Flange, id=flange_id)
-        if flange.stone:
-            stone = flange.stone
-        else:
-            stone = self.request.session.get('stone')
         
         # Create the StoneHandling object
         StoneHandling.objects.create(
             flange=flange,
             action=action,
-            stone=stone,
+            stone=form.cleaned_data.get('stone', None),
             design_number=form.cleaned_data.get('design_number', None),
             new_design_number=form.cleaned_data.get('new_design_number', None),
             action_date=form.cleaned_data.get('action_date', None),
