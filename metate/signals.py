@@ -35,7 +35,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
             flange.save()
     elif action == 'mounted' and stone.main_state in ['BY_ITSELF', 'NEW']:
         if stone.main_state == 'NEW':
-            stone.name = hinban_list[design_number]
+            stone.name = hinban_list[str(design_number)]
         stone.main_state = 'WITH_FLANGE_IN_SPINDLE'
         stone.design_number = design_number
         stone.save()
