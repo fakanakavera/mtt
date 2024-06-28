@@ -39,4 +39,4 @@ class StoneHandlingStep3Form(forms.ModelForm):
         super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
         print(f"Selected action: {selected_action}")
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step3.yaml'))
-        self.fields.append('stone')
+        self.fields['stone'] = forms.ModelChoiceField(queryset=Stone.objects.all())
