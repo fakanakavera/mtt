@@ -35,8 +35,8 @@ class StoneHandlingStep3Form(forms.ModelForm):
         fields = ['design_number', 'new_design_number', 'action_date', 'notes']
 
     def __init__(self, *args, **kwargs):
-        super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
         selected_action = kwargs.pop('selected_action', None)
+        super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
         print(f"Selected action: {selected_action}")
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step3.yaml'))
         self.fields.append('stone')
