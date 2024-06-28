@@ -12,9 +12,9 @@ def handle_stone_handling(sender, instance, created, **kwargs):
     if not created:
         return
 
-    hinban_list = load_yaml(os.path.join(DIR, 'variables', 'hinbans.yaml'))
-    hinban_list = hinban_list['hinban_list'][0]
-    print(hinban_list)
+    hinban_dict = load_yaml(os.path.join(DIR, 'variables', 'hinbans.yaml'))
+    hinban_dict = hinban_dict['hinban_list']
+    print(hinban_dict)
     stone = instance.stone
     action = instance.action
     flange = instance.flange
@@ -36,7 +36,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
             flange.save()
     elif action == 'mounted' and stone.main_state in ['BY_ITSELF', 'NEW']:
         if stone.main_state == 'NEW':
-            stone.name = hinban_list[str(design_number)]
+            stone.name = hinban_dict[str(design_number)]
         stone.main_state = 'WITH_FLANGE_IN_SPINDLE'
         stone.design_number = design_number
         stone.save()
