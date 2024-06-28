@@ -45,3 +45,8 @@ class StoneHandlingStep3Form(forms.ModelForm):
     class Meta:
         model = StoneHandling
         fields = ['design_number', 'new_design_number', 'action_date', 'notes']
+
+    def __init__(self, *args, **kwargs):
+        super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
+        print(*args)
+        print(**kwargs)
