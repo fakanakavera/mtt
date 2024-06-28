@@ -38,7 +38,8 @@ class StoneHandlingStep2Form(forms.ModelForm):
             print(f"Action choices for state {state}: {self.fields['action'].choices}")
         
         if not stone:
-            print("No stone provided.")
+            choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
+            self.fields['action'].choices = choices['EMPTY_FLANGE']
 
 class StoneHandlingStep3Form(forms.ModelForm):
     class Meta:

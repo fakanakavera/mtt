@@ -1,6 +1,7 @@
 # stonehandling_form_step2.yaml
 # used in StoneHandlingStep2Form
 
+# if stone:
 NEW:
   - ['mount_flange', 'Mount Flange']
   
@@ -10,3 +11,7 @@ BY_ITSELF:
 WITH_FLANGE:
   - ['removed', 'Removed']
   - ['discarded', 'Discarded']
+
+# if not stone:
+EMPTY_FLANGE:
+  - ['mount_stone', 'Mount Stone']
