@@ -36,6 +36,9 @@ class StoneHandlingStep2Form(forms.ModelForm):
             # Update the action field choices
             self.fields['action'].choices = choices[state]
             print(f"Action choices for state {state}: {self.fields['action'].choices}")
+        
+        if not stone:
+            print("No stone provided.")
 
 class StoneHandlingStep3Form(forms.ModelForm):
     class Meta:
