@@ -12,7 +12,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
     if not created:
         return
 
-    hinban_list = load_yaml(os.path.join(DIR, 'variables', 'hinban_list.yaml'))
+    hinban_list = load_yaml(os.path.join(DIR, 'variables', 'hinbans.yaml'))
     stone = instance.stone
     action = instance.action
     flange = instance.flange
