@@ -14,4 +14,4 @@ WITH_FLANGE:
 
 # if not stone:
 EMPTY_FLANGE:
-  - ['mount_stone', 'Mount Stone']
+  - ['mounted', 'Mounted']
