@@ -18,14 +18,12 @@ class StoneHandlingStep2Form(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         stone = kwargs.pop('stone', None)
         super(StoneHandlingStep2Form, self).__init__(*args, **kwargs)
+        choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
         if stone:
             state = stone.main_state
-            choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
-
             self.fields['action'].choices = choices[state]
         
         if not stone:
-            choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
             self.fields['action'].choices = choices['EMPTY_FLANGE']
 
 class StoneHandlingStep3Form(forms.ModelForm):

@@ -14,7 +14,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
 
     hinban_dict = load_yaml(os.path.join(DIR, 'variables', 'hinbans.yaml'))
     hinban_dict = hinban_dict['hinban_list']
-    print(hinban_dict)
+
     stone = instance.stone
     action = instance.action
     flange = instance.flange

@@ -24,11 +24,9 @@ class StoneHandlingStep2View(FormView):
             flange = get_object_or_404(Flange, id=flange_id)
             stone = flange.stone
             kwargs['stone'] = stone
-            print(f"Stone: {stone}")
         return kwargs
 
     def form_valid(self, form):
-        print(self.request.session)
         self.request.session['action'] = form.cleaned_data['action']
         return redirect('stonehandling_step3')
 
