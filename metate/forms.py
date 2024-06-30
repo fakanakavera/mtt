@@ -40,6 +40,16 @@ class StoneHandlingStep3Form(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         selected_action = kwargs.pop('selected_action', None)
+        selected_flange = kwargs.pop('selected_flange', None)
         super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
+        self.fields['selected_flange'] = forms.CharField(label="Selected Flange", required=False)
+        self.fields['selected_flange'].widget.attrs['readonly'] = True
+        self.fields['selected_flange'].widget.attrs['disabled'] = True  # Ensure the field is non-editable
+        self.fields['selected_flange'].initial = selected_flange  # Set the initial value
+        self.fields['selected_action'] = forms.CharField(label="Selected Flange", required=False)
+        self.fields['selected_action'].widget.attrs['readonly'] = True
+        self.fields['selected_action'].widget.attrs['disabled'] = True  # Ensure the field is non-editable
+        self.fields['selected_action'].initial = selected_action  # Set the initial value
+
         self.fields['stone'] = forms.ModelChoiceField(queryset=Stone.objects.filter(main_state='NEW'))
 

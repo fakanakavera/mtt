@@ -37,11 +37,18 @@ class StoneHandlingStep3View(FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
+        flange_id = self.request.session.get('flange')
+
         for key, value in self.request.session.items():
             print(f"{key}: {value}")
+
         selected_action = self.request.session.get('action')
         if selected_action:
             kwargs['selected_action'] = selected_action
+
+        if flange_id:
+            flange = get_object_or_404(Flange, id=flange_id)
+            kwargs['selected_flange'] = flange
         return kwargs
 
     def form_valid(self, form):
