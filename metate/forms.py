@@ -13,15 +13,18 @@ class StoneHandlingStep1Form(forms.ModelForm):
 class StoneHandlingStep2Form(forms.ModelForm):
     class Meta:
         model = StoneHandling
-        fields = ['action', 'selected_flange']
+        fields = ['action']
 
     def __init__(self, *args, **kwargs):
         stone = kwargs.pop('stone', None)
         flange = kwargs.pop('selected_flange', None)
         super(StoneHandlingStep2Form, self).__init__(*args, **kwargs)
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
+        
         self.fields['selected_flange'].widget.attrs['readonly'] = True
-        self.fields['selected_flange'].initial = flange
+        self.fields['selected_flange'].widget.attrs['disabled'] = True  # Ensure the field is non-editable
+        self.fields['selected_flange'].initial = flange  # Set the initial value
+
         if stone:
             state = stone.main_state
             self.fields['action'].choices = choices[state]
