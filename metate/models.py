@@ -24,7 +24,7 @@ class Flange(models.Model):
     current_status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='STORED')
 
     def __str__(self):
-        return f"- Flange {self.number} ({self.current_status})"
+        return f"Flange {self.number} ({self.current_status})"
 
 class Inventory(models.Model):
     stone = models.ForeignKey(Stone, on_delete=models.CASCADE)
