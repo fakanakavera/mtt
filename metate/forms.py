@@ -21,6 +21,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
         super(StoneHandlingStep2Form, self).__init__(*args, **kwargs)
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
         
+        self.fields['selected_flange'] = forms.CharField(label="Selected Flange", required=False)
         self.fields['selected_flange'].widget.attrs['readonly'] = True
         self.fields['selected_flange'].widget.attrs['disabled'] = True  # Ensure the field is non-editable
         self.fields['selected_flange'].initial = flange  # Set the initial value
