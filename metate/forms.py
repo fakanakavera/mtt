@@ -13,7 +13,7 @@ class StoneHandlingStep1Form(forms.ModelForm):
 class StoneHandlingStep2Form(forms.ModelForm):
     class Meta:
         model = StoneHandling
-        fields = ['action']
+        fields = ['action', 'selected_flange']
 
     def __init__(self, *args, **kwargs):
         stone = kwargs.pop('stone', None)
