@@ -37,7 +37,8 @@ class StoneHandlingStep3View(FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        print(self.request.session)
+        for key, value in self.request.session.items():
+            print(f"{key}: {value}")
         selected_action = self.request.session.get('action')
         if selected_action:
             kwargs['selected_action'] = selected_action
