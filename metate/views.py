@@ -24,6 +24,7 @@ class StoneHandlingStep2View(FormView):
             flange = get_object_or_404(Flange, id=flange_id)
             stone = flange.stone
             kwargs['stone'] = stone
+            kwargs['selected_flange'] = flange
         return kwargs
 
     def form_valid(self, form):

@@ -17,8 +17,11 @@ class StoneHandlingStep2Form(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         stone = kwargs.pop('stone', None)
+        flange = kwargs.pop('selected_flange', None)
         super(StoneHandlingStep2Form, self).__init__(*args, **kwargs)
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
+        self.fields['selected_flange'].widget.attrs['readonly'] = True
+        self.fields['selected_flange'].initial = flange
         if stone:
             state = stone.main_state
             self.fields['action'].choices = choices[state]
