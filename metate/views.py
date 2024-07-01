@@ -58,7 +58,7 @@ class StoneHandlingStep3View(FormView):
         else:
             stone = form.cleaned_data['stone']
 
-        if action == 'hanten':
+        if action in ['hanten', 'remover', 'descartar']:
             design_number = stone.design_number
         else:
             design_number = form.cleaned_data.get('new_design_number', None)
