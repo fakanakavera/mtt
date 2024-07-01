@@ -76,6 +76,7 @@ class StoneHandlingStep3Form(forms.ModelForm):
         selected_action = kwargs.pop('selected_action', None)
         selected_flange = kwargs.pop('selected_flange', None)
         super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
+        
 
         _initialize_selected_flange_field(self, selected_flange)
         _initialize_selected_action_field(self, selected_action)
@@ -83,5 +84,6 @@ class StoneHandlingStep3Form(forms.ModelForm):
         if selected_action == 'montar':
             _initialize_stonemodel_choice_field(self, mainstate='NEW')
 
-        # if selected_action == 'descartar':
+        if selected_action == 'descartar':
+            self.fields.pop('design_number')
 
