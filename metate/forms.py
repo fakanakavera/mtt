@@ -5,11 +5,21 @@ import os
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 
-def _initialize_custom_field(self, field_name, label, required=False, readonly=True, disabled=True, initial=None):
+def _initialize_custom_field(self, field_name, label, required=False, readonly=True, disabled=False, initial=None):
     self.fields[field_name] = forms.CharField(label=label, required=required)
     self.fields[field_name].widget.attrs['readonly'] = readonly
     self.fields[field_name].widget.attrs['disabled'] = disabled
     self.fields[field_name].initial = initial
+
+def _initialize_selected_action_field(self, selected_action):
+    _initialize_custom_field(self, 
+                            'selected_action', 
+                            'Selected Action', 
+                            required=False, 
+                            readonly=True, 
+                            disabled=True, 
+                            initial=selected_action
+                        )
 
 def _initialize_selected_flange_field(self, selected_flange):
     _initialize_custom_field(self, 
@@ -38,10 +48,11 @@ class StoneHandlingStep2Form(forms.ModelForm):
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
         _initialize_selected_flange_field(self, flange)
 
+        # if flange has a stone
         if stone:
             state = stone.main_state
             self.fields['action'].choices = choices[state]
-        
+        # if flange has no stone
         if not stone:
             self.fields['action'].choices = choices['EMPTY_FLANGE']
         
@@ -55,14 +66,9 @@ class StoneHandlingStep3Form(forms.ModelForm):
         selected_action = kwargs.pop('selected_action', None)
         selected_flange = kwargs.pop('selected_flange', None)
         super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
-        self.fields['selected_flange'] = forms.CharField(label="Selected Flange", required=False)
-        self.fields['selected_flange'].widget.attrs['readonly'] = True
-        self.fields['selected_flange'].widget.attrs['disabled'] = True  # Ensure the field is non-editable
-        self.fields['selected_flange'].initial = selected_flange  # Set the initial value
-        self.fields['selected_action'] = forms.CharField(label="Selected Flange", required=False)
-        self.fields['selected_action'].widget.attrs['readonly'] = True
-        self.fields['selected_action'].widget.attrs['disabled'] = True  # Ensure the field is non-editable
-        self.fields['selected_action'].initial = selected_action  # Set the initial value
+
+        _initialize_selected_flange_field(self, selected_flange)
+        _initialize_selected_action_field(self, selected_action)
 
         self.fields['stone'] = forms.ModelChoiceField(queryset=Stone.objects.filter(main_state='NEW'))
 
