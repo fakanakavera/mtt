@@ -38,7 +38,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
     elif action == 'montar' and stone.main_state in ['BY_ITSELF', 'NEW']:
         if stone.main_state == 'NEW':
             stone.name = hinban_dict[str(design_number)]
-        stone.main_state = 'WITH_FLANGE_IN_SPINDLE'
+        stone.main_state = 'WITH_FLANGE_ON_SPINDLE'
         stone.design_number = design_number
         stone.save()
         if flange:
@@ -55,7 +55,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
             raise ValueError("Design number must be provided for this action.")
         
     elif action == 'montar no spindle' and stone.main_state in ['WITH_FLANGE']:
-        stone.main_state = 'WITH_FLANGE_IN_SPINDLE'
+        stone.main_state = 'WITH_FLANGE_ON_SPINDLE'
         stone.save()
         if flange:
             flange.current_status = 'ON_SPINDLE'
