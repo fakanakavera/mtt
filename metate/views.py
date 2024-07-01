@@ -61,7 +61,7 @@ class StoneHandlingStep3View(FormView):
         if action == 'hanten':
             design_number = stone.design_number
         else:
-            design_number = form.cleaned_data['design_number']
+            design_number = form.cleaned_data.get('new_design_number', None)
         
         print(f"flange: {flange}")
         print(f"stone: {stone}")
