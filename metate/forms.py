@@ -40,7 +40,7 @@ def _initialize_selected_flange_field(self, selected_flange):
                             initial=selected_flange
                         )
     
-def _initialize_slected_stone_field(self, selected_stone):
+def _initialize_selected_stone_field(self, selected_stone):
     _initialize_custom_field(self, 
                             'selected_stone', 
                             'Selected Stone', 
@@ -91,10 +91,12 @@ class StoneHandlingStep3Form(forms.ModelForm):
 
         _initialize_selected_flange_field(self, selected_flange)
         _initialize_selected_action_field(self, selected_action)
-        _initialize_slected_stone_field(self, selected_stone)
 
         if selected_action == 'montar':
             _initialize_stonemodel_choice_field(self, mainstate='NEW')
+        else:
+            _initialize_selected_stone_field(self, selected_stone)
+
 
         if selected_action == 'descartar':
             self.fields.pop('design_number')
