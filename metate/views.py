@@ -46,6 +46,7 @@ class StoneHandlingStep3View(FormView):
         if flange_id:
             flange = get_object_or_404(Flange, id=flange_id)
             kwargs['selected_flange'] = flange
+            kwargs['stone'] = flange.stone.id
         return kwargs
 
     def form_valid(self, form):
