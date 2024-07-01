@@ -39,6 +39,16 @@ def _initialize_selected_flange_field(self, selected_flange):
                             disabled=False, 
                             initial=selected_flange
                         )
+    
+def _initialize_slected_stone_field(self, selected_stone):
+    _initialize_custom_field(self, 
+                            'selected_stone', 
+                            'Selected Stone', 
+                            required=False, 
+                            readonly=True, 
+                            disabled=False, 
+                            initial=selected_stone
+                        )
 
 class StoneHandlingStep1Form(forms.ModelForm):
     class Meta:
@@ -75,11 +85,13 @@ class StoneHandlingStep3Form(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         selected_action = kwargs.pop('selected_action', None)
         selected_flange = kwargs.pop('selected_flange', None)
+        selected_stone = selected_flange.stone
         super(StoneHandlingStep3Form, self).__init__(*args, **kwargs)
         
 
         _initialize_selected_flange_field(self, selected_flange)
         _initialize_selected_action_field(self, selected_action)
+        _initialize_slected_stone_field(self, selected_stone)
 
         if selected_action == 'montar':
             _initialize_stonemodel_choice_field(self, mainstate='NEW')
