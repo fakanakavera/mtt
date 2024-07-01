@@ -27,7 +27,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
     if flange and flange.stone and flange.stone != stone:
         raise ValueError("The selected flange is not associated with the selected stone.")
 
-    if action == 'descartar' and stone.main_state in ['WITH_FLANGE_IN_SPINDLE']:
+    if action == 'descartar' and stone.main_state in ['WITH_FLANGE_ON_SPINDLE']:
         stone.main_state = 'DESCARTADA'
         stone.save()
         if flange:
@@ -46,7 +46,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
             flange.current_status = 'ON_SPINDLE'
             flange.save()
 
-    elif action == 'hanten' and stone.main_state in ['WITH_FLANGE_IN_SPINDLE']:
+    elif action == 'hanten' and stone.main_state in ['WITH_FLANGE_ON_SPINDLE']:
         if new_design_number:
             stone.name = hinban_dict[str(new_design_number)]
             stone.design_number = new_design_number
@@ -64,7 +64,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
 
 
 
-    elif action == 'remover'and stone.main_state in ['WITH_FLANGE', 'WITH_FLANGE_IN_SPINDLE']:
+    elif action == 'remover'and stone.main_state in ['WITH_FLANGE', 'WITH_FLANGE_ON_SPINDLE']:
         stone.main_state = 'BY_ITSELF'
         stone.save()
         if flange:
@@ -73,7 +73,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
             flange.save()
 
 
-    elif action == 'shelved_with_flange' and stone.main_state == 'WITH_FLANGE_IN_SPINDLE':
+    elif action == 'shelved_with_flange' and stone.main_state == 'WITH_FLANGE_ON_SPINDLE':
         stone.main_state = 'WITH_FLANGE'
         stone.save()
         if flange:
@@ -81,7 +81,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
             flange.save()
 
     elif action == 'reinstated' and stone.main_state == 'WITH_FLANGE':
-        stone.main_state = 'WITH_FLANGE_IN_SPINDLE'
+        stone.main_state = 'WITH_FLANGE_ON_SPINDLE'
         stone.save()
         if flange:
             flange.current_status = 'WITH_STONE'
