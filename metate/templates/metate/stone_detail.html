@@ -6,6 +6,7 @@
   <p>Size: {{ stone.size }}mm</p>
   <p>Design Number: {{ stone.design_number }}</p>
   <p>Description: {{ stone.description }}</p>
+  <p>Main State: {{ stone.main_state }}</p>
   <a href="{% url 'stone_update' stone.pk %}">Edit</a>
   <a href="{% url 'stone_list' %}">Back to List</a>
 {% endblock %}
