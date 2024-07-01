@@ -36,7 +36,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
         flange = kwargs.pop('selected_flange', None)
         super(StoneHandlingStep2Form, self).__init__(*args, **kwargs)
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
-        _initialize_selected_flange_field(flange)
+        _initialize_selected_flange_field(self, flange)
 
         if stone:
             state = stone.main_state
