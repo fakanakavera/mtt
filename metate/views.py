@@ -46,7 +46,6 @@ class StoneHandlingStep3View(FormView):
         if flange_id:
             flange = get_object_or_404(Flange, id=flange_id)
             kwargs['selected_flange'] = flange
-            kwargs['stone'] = flange.stone.id
         return kwargs
 
     def form_valid(self, form):
@@ -54,13 +53,14 @@ class StoneHandlingStep3View(FormView):
         action = self.request.session.get('action')
         flange_id = self.request.session.get('flange')
         flange = get_object_or_404(Flange, id=flange_id)
-
+        stone = flange.stone
+        
         
         # Create the StoneHandling object
         StoneHandling.objects.create(
             flange=flange,
             action=action,
-            stone=form.cleaned_data.get('stone', None),
+            stone=stone,
             design_number=form.cleaned_data.get('design_number', None),
             new_design_number=form.cleaned_data.get('new_design_number', None),
             action_date=form.cleaned_data.get('action_date', None),
