@@ -76,7 +76,7 @@ class StoneHandlingStep3View(FormView):
             flange=flange,
             action=action,
             stone=stone,
-            design_number=form.cleaned_data.get('design_number', None),
+            design_number=design_number,
             new_design_number=form.cleaned_data.get('new_design_number', None),
             action_date=form.cleaned_data.get('action_date', None),
             notes=form.cleaned_data.get('notes', None),
