@@ -55,7 +55,9 @@ class StoneHandlingStep3View(FormView):
         flange = get_object_or_404(Flange, id=flange_id)
         stone = flange.stone
         
-        
+        print(f"flange: {flange}")
+        print(f"stone: {stone}")
+        print(f"action: {action}")
         # Create the StoneHandling object
         StoneHandling.objects.create(
             flange=flange,
