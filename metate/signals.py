@@ -43,7 +43,7 @@ def handle_stone_handling(sender, instance, created, **kwargs):
         stone.save()
         if flange:
             flange.stone = stone
-            flange.current_status = 'WITH_STONE'
+            flange.current_status = 'ON_SPINDLE'
             flange.save()
 
     elif action == 'hanten' and stone.main_state in ['WITH_FLANGE_IN_SPINDLE']:

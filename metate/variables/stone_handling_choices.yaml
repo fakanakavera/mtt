@@ -3,3 +3,7 @@
 
 action_choices:
   - ['montar', 'Montar']
+  - ['hanten', 'Hanten']        # Hanten
+  - ['remover', 'Remover']      # Remover do flange (provavelemente para guardar)
+  - ['descartar', 'Descartar']  # Descartar pedra pequena
+# - ['montar no spindle', 'Montar no Spindle']        # Montar  

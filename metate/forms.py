@@ -61,6 +61,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
         if stone:
             state = stone.main_state
             self.fields['action'].choices = choices[state]
+            print(self.fields['action'].choices)
         # if flange has no stone
         if not stone:
             self.fields['action'].choices = choices['EMPTY_FLANGE']
