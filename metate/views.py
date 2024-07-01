@@ -61,6 +61,10 @@ class StoneHandlingStep3View(FormView):
         print(f"flange: {flange}")
         print(f"stone: {stone}")
         print(f"action: {action}")
+        print(f"design_number: {form.cleaned_data.get('design_number', None)}")
+        print(f"new_design_number: {form.cleaned_data.get('new_design_number', None)}")
+        print(f"action_date: {form.cleaned_data.get('action_date', None)}")
+        print(f"notes: {form.cleaned_data.get('notes', None)}")
         
         # Create the StoneHandling object
         StoneHandling.objects.create(

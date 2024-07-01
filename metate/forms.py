@@ -97,7 +97,6 @@ class StoneHandlingStep3Form(forms.ModelForm):
         else:
             _initialize_selected_stone_field(self, selected_stone)
 
-
         if selected_action == 'descartar':
             self.fields.pop('design_number')
 
