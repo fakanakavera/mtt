@@ -5,6 +5,22 @@ import os
 
 DIR = os.path.dirname(os.path.abspath(__file__))
 
+def _initialize_custom_field(self, field_name, label, required=False, readonly=True, disabled=True, initial=None):
+    self.fields[field_name] = forms.CharField(label=label, required=required)
+    self.fields[field_name].widget.attrs['readonly'] = readonly
+    self.fields[field_name].widget.attrs['disabled'] = disabled
+    self.fields[field_name].initial = initial
+
+def _initialize_selected_flange_field(self, selected_flange):
+    _initialize_custom_field(self, 
+                            'selected_flange', 
+                            'Selected Flange', 
+                            required=False, 
+                            readonly=True, 
+                            disabled=True, 
+                            initial=selected_flange
+                        )
+
 class StoneHandlingStep1Form(forms.ModelForm):
     class Meta:
         model = StoneHandling
@@ -20,11 +36,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
         flange = kwargs.pop('selected_flange', None)
         super(StoneHandlingStep2Form, self).__init__(*args, **kwargs)
         choices = load_yaml(os.path.join(DIR, 'variables', 'stonehandling_form_step2.yaml'))
-        
-        self.fields['selected_flange'] = forms.CharField(label="Selected Flange", required=False)
-        self.fields['selected_flange'].widget.attrs['readonly'] = True
-        self.fields['selected_flange'].widget.attrs['disabled'] = True  # Ensure the field is non-editable
-        self.fields['selected_flange'].initial = flange  # Set the initial value
+        _initialize_selected_flange_field(flange)
 
         if stone:
             state = stone.main_state
@@ -32,6 +44,7 @@ class StoneHandlingStep2Form(forms.ModelForm):
         
         if not stone:
             self.fields['action'].choices = choices['EMPTY_FLANGE']
+        
 
 class StoneHandlingStep3Form(forms.ModelForm):
     class Meta:
