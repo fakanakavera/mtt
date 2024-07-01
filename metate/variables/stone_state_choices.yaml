@@ -4,6 +4,6 @@
 state_choices:
   - ['BY_ITSELF', 'By Itself']
   - ['WITH_FLANGE', 'With Flange']
-  - ['WITH_FLANGE_IN_SPINDLE', 'With Flange in Spindle']
+  - ['WITH_FLANGE_ON_SPINDLE', 'With Flange on Spindle']
   - ['NEW', 'New']
-  - ['DISCARDED', 'Discarded']
+  - ['DESCARTADA', 'Descartada']

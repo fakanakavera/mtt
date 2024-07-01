@@ -2,7 +2,8 @@
 # used in Flange model
 
 state_choices:
-  - ['STORED', 'Stored']
-  - ['IN_USE', 'In Use']
+  - ['EMPTY', 'Empty']
+  - ['WITH_STONE', 'With Stone']
+  - ['ON_SPINDLE', 'On Spindle']
   - ['DISCARDED', 'Discarded']
   

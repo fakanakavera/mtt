@@ -6,10 +6,19 @@ import os
 DIR = os.path.dirname(os.path.abspath(__file__))
 
 def _initialize_custom_field(self, field_name, label, required=False, readonly=True, disabled=False, initial=None):
+    """Initialize a custom field with the provided arguments."""
     self.fields[field_name] = forms.CharField(label=label, required=required)
     self.fields[field_name].widget.attrs['readonly'] = readonly
     self.fields[field_name].widget.attrs['disabled'] = disabled
     self.fields[field_name].initial = initial
+
+def _initialize_custom_model_choice_field(self, field_name, label, queryset):
+    """Initialize a custom model choice field with the provided queryset."""
+    self.fields[field_name] = forms.ModelChoiceField(queryset=queryset, label=label)
+
+def _initialize_stonemodel_choice_field(self, mainstate):
+    """Initialize the stone field with the stones that have the mainstate provided as argument."""
+    _initialize_custom_model_choice_field(self, 'stone', 'Stone', Stone.objects.filter(main_state=mainstate))
 
 def _initialize_selected_action_field(self, selected_action):
     _initialize_custom_field(self, 
@@ -17,7 +26,7 @@ def _initialize_selected_action_field(self, selected_action):
                             'Selected Action', 
                             required=False, 
                             readonly=True, 
-                            disabled=True, 
+                            disabled=False, 
                             initial=selected_action
                         )
 
@@ -27,7 +36,7 @@ def _initialize_selected_flange_field(self, selected_flange):
                             'Selected Flange', 
                             required=False, 
                             readonly=True, 
-                            disabled=True, 
+                            disabled=False, 
                             initial=selected_flange
                         )
 
@@ -70,5 +79,8 @@ class StoneHandlingStep3Form(forms.ModelForm):
         _initialize_selected_flange_field(self, selected_flange)
         _initialize_selected_action_field(self, selected_action)
 
-        self.fields['stone'] = forms.ModelChoiceField(queryset=Stone.objects.filter(main_state='NEW'))
+        if selected_action == 'montar':
+            _initialize_stonemodel_choice_field(self, mainstate='NEW')
+
+        # if selected_action == 'descartar':
 

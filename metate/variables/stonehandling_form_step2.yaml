@@ -1,17 +1,15 @@
 # stonehandling_form_step2.yaml
 # used in StoneHandlingStep2Form
 
-# if stone:
-NEW:
-  - ['mount_flange', 'Mount Flange']
-  
-BY_ITSELF:
-  - ['mount_flange', 'Mount Flange']
+# if selected flange has stone on it
+WITH_FLANGE_ON_SPINDLE:
+  - ['hanten', 'Hanten']        # Hanten
+  - ['remover', 'Remover']      # Remover do flange (provavelemente para guardar)
+  - ['descartar', 'Descartar']  # Descartar pedra pequena
 
 WITH_FLANGE:
-  - ['removed', 'Removed']
-  - ['discarded', 'Discarded']
+  - ['montar no spindle', 'Montar no Spindle']        # Montar
 
-# if not stone:
+# if selected flange is empty
 EMPTY_FLANGE:
-  - ['mounted', 'Mounted']
+  - ['montar', 'Montar']

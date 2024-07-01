@@ -2,4 +2,4 @@
 # used in StoneHandling model
 
 action_choices:
-  - ['mounted', 'Mounted']
+  - ['montar', 'Montar']
